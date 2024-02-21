@@ -1,0 +1,69 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*.go'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**/*.go'
+  release:
+    types:
+      - created
+
+jobs:
+  build-and-deploy:
+    runs-on: ${{ matrix.platform }}
+
+    strategy:
+      matrix:
+        platform:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        go-version:
+          - 1.19
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Build for ${{ matrix.platform }}
+        run: |
+          go build -o logen
+
+      - name: Test
+        run: echo "No tests to run."
+
+      - name: Create Zip Archive (Windows)
+        if: ${{ matrix.platform == 'windows-latest' }}
+        run: |
+          Rename-Item -Path ./logen -NewName "logen.exe"
+          powershell Compress-Archive -Path ./logen.exe -DestinationPath logen-${{ matrix.platform }}.zip
+
+      - name: Create Zip Archive (Linux, macOS)
+        if: ${{ matrix.platform != 'windows-latest' }}
+        run: |
+          zip -r logen-${{ matrix.platform }}.zip logen
+
+      - name: Upload Assets
+        if: ${{ github.event_name == 'release' }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./logen-${{ matrix.platform }}.zip
+          asset_name: logen-${{ matrix.platform }}.zip
+          asset_content_type: application/octet-stream
