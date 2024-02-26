@@ -112,7 +112,7 @@ func (baseComparator) Alters(field, value any) (string, error) {
 		return "", nil
 	default:
 		// The Sigma spec defines that by default comparisons are case-insensitive
-		return fmt.Sprintf("%v = '%v'", strings.ToLower(coerceString(field)), strings.ToLower(coerceString(value))), nil
+		return fmt.Sprintf("%v equal '%v'", strings.ToLower(coerceString(field)), strings.ToLower(coerceString(value))), nil
 	}
 }
 
@@ -122,7 +122,7 @@ type contains struct {
 
 func (c contains) Alters(field, value any) (string, error) {
 	syntheticValue := c.generator.GenerateSyntheticValue(coerceString(value), "contains")
-	return fmt.Sprintf("%v = '%v'", strings.ToLower(coerceString(field)), strings.ToLower(syntheticValue)), nil
+	return fmt.Sprintf("%v contains '%v'", strings.ToLower(coerceString(field)), strings.ToLower(syntheticValue)), nil
 }
 
 type endswith struct {
@@ -131,7 +131,7 @@ type endswith struct {
 
 func (e endswith) Alters(field, value any) (string, error) {
 	syntheticValue := e.generator.GenerateSyntheticValue(coerceString(value), "endswith")
-	return fmt.Sprintf("%v = '%v'", strings.ToLower(coerceString(field)), strings.ToLower(syntheticValue)), nil
+	return fmt.Sprintf("%v endswith '%v'", strings.ToLower(coerceString(field)), strings.ToLower(syntheticValue)), nil
 }
 
 type startswith struct {
@@ -140,7 +140,7 @@ type startswith struct {
 
 func (s startswith) Alters(field, value any) (string, error) {
 	syntheticValue := s.generator.GenerateSyntheticValue(coerceString(value), "startswith")
-	return fmt.Sprintf("%v = '%v'", strings.ToLower(coerceString(field)), strings.ToLower(syntheticValue)), nil
+	return fmt.Sprintf("%v startswith '%v'", strings.ToLower(coerceString(field)), strings.ToLower(syntheticValue)), nil
 }
 
 type containsCS struct {
@@ -149,7 +149,7 @@ type containsCS struct {
 
 func (c containsCS) Alters(field, value any) (string, error) {
 	syntheticValue := c.generator.GenerateSyntheticValue(coerceString(value), "contains")
-	return fmt.Sprintf("%v = '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v contains '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
 }
 
 type endswithCS struct {
@@ -158,7 +158,7 @@ type endswithCS struct {
 
 func (e endswithCS) Alters(field, value any) (string, error) {
 	syntheticValue := e.generator.GenerateSyntheticValue(coerceString(value), "endswith")
-	return fmt.Sprintf("%v = '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v endswith '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
 }
 
 type startswithCS struct {
@@ -167,7 +167,7 @@ type startswithCS struct {
 
 func (s startswithCS) Alters(field, value any) (string, error) {
 	syntheticValue := s.generator.GenerateSyntheticValue(coerceString(value), "startswith")
-	return fmt.Sprintf("%v = '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v startswith '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
 }
 
 type re struct {
@@ -176,7 +176,7 @@ type re struct {
 
 func (r re) Alters(field any, value any) (string, error) {
 	syntheticValue := r.generator.GenerateSyntheticValue(coerceString(value), "re")
-	return fmt.Sprintf("%v = '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v re '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
 }
 
 type cidr struct {
@@ -185,7 +185,7 @@ type cidr struct {
 
 func (c cidr) Alters(field any, value any) (string, error) {
 	syntheticValue := c.generator.GenerateSyntheticValue(coerceString(value), "cidr")
-	return fmt.Sprintf("%v = '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v cidr '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
 }
 
 type gt struct {
@@ -194,7 +194,7 @@ type gt struct {
 
 func (g gt) Alters(field any, value any) (string, error) {
 	syntheticValue := g.generator.GenerateSyntheticValue(coerceString(value), "gt")
-	return fmt.Sprintf("%v = '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v gt '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
 }
 
 type gte struct {
@@ -203,7 +203,7 @@ type gte struct {
 
 func (g gte) Alters(field any, value any) (string, error) {
 	syntheticValue := g.generator.GenerateSyntheticValue(coerceString(value), "gte")
-	return fmt.Sprintf("%v = '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v gte '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
 }
 
 type lt struct {
@@ -212,7 +212,7 @@ type lt struct {
 
 func (l lt) Alters(field any, value any) (string, error) {
 	syntheticValue := l.generator.GenerateSyntheticValue(coerceString(value), "lt")
-	return fmt.Sprintf("%v = '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v lt '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
 }
 
 type lte struct {
@@ -221,7 +221,7 @@ type lte struct {
 
 func (l lte) Alters(field any, value any) (string, error) {
 	syntheticValue := l.generator.GenerateSyntheticValue(coerceString(value), "lte")
-	return fmt.Sprintf("%v = '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v lte '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
 }
 
 type b64 struct{}
