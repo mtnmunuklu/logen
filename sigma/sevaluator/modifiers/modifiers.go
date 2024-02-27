@@ -176,7 +176,7 @@ type re struct {
 
 func (r re) Alters(field any, value any) (string, error) {
 	syntheticValue := r.generator.GenerateSyntheticValue(coerceString(value), "re")
-	return fmt.Sprintf("%v re '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v equal '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
 }
 
 type cidr struct {
@@ -185,7 +185,7 @@ type cidr struct {
 
 func (c cidr) Alters(field any, value any) (string, error) {
 	syntheticValue := c.generator.GenerateSyntheticValue(coerceString(value), "cidr")
-	return fmt.Sprintf("%v cidr '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v equal '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
 }
 
 type gt struct {
