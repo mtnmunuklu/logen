@@ -71,7 +71,7 @@ func (rule RuleEvaluator) Alters(ctx context.Context) (Result, error) {
 			}
 		}
 	}
-	fmt.Println(result)
+
 	// Combine the search results and condition results to form the final query strings for each condition.
 	// The query strings are stored in the QueryResults map of the result object.
 	for i, conditionResult := range result.ConditionResults {
