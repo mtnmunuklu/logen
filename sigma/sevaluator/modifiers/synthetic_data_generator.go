@@ -5,7 +5,6 @@ import (
 	"math/rand"
 	"net"
 	"regexp/syntax"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -40,14 +39,6 @@ func (g *SyntheticDataGenerator) GenerateSyntheticValue(value string, operationT
 		syntheticData = g.generateRegexSyntheticData(value)
 	case "cidr":
 		syntheticData = g.generateCIDRMatch(value)
-	case "gt":
-		syntheticData = g.generateGreaterValue(value)
-	case "gte":
-		syntheticData = g.generateGreaterOrEqualValue(value)
-	case "lt":
-		syntheticData = g.generateLesserValue(value)
-	case "lte":
-		syntheticData = g.generateLesserOrEqualValue(value)
 	default:
 		syntheticData = value
 	}
@@ -179,54 +170,6 @@ func inc(ip net.IP) {
 			break
 		}
 	}
-}
-
-// GenerateGreaterValue generates a synthetic value greater than a specific value.
-func (g *SyntheticDataGenerator) generateGreaterValue(value string) string {
-	// Check: If the value is not numeric, create a synthetic value by adding a random string
-	if _, err := strconv.Atoi(value); err != nil {
-		return value + g.generateRandomString(5)
-	}
-
-	// If it's a numeric value, perform the normal operation
-	base, _ := strconv.Atoi(value)
-	return strconv.Itoa(base + g.randomGenerator.Intn(10) + 1)
-}
-
-// GenerateGreaterOrEqualValue generates a synthetic value greater than or equal to a specific value.
-func (g *SyntheticDataGenerator) generateGreaterOrEqualValue(value string) string {
-	// Check: If the value is not numeric, create a synthetic value by adding a random string
-	if _, err := strconv.Atoi(value); err != nil {
-		return value + g.generateRandomString(5)
-	}
-
-	// If it's a numeric value, perform the normal operation
-	base, _ := strconv.Atoi(value)
-	return strconv.Itoa(base + g.randomGenerator.Intn(10))
-}
-
-// GenerateLesserValue generates a synthetic value lesser than a specific value.
-func (g *SyntheticDataGenerator) generateLesserValue(value string) string {
-	// Check: If the value is not numeric, create a synthetic value by adding a random string
-	if _, err := strconv.Atoi(value); err != nil {
-		return g.generateRandomString(5) + value
-	}
-
-	// If it's a numeric value, perform the normal operation
-	base, _ := strconv.Atoi(value)
-	return strconv.Itoa(base - g.randomGenerator.Intn(10) - 1)
-}
-
-// GenerateLesserOrEqualValue generates a synthetic value lesser than or equal to a specific value.
-func (g *SyntheticDataGenerator) generateLesserOrEqualValue(value string) string {
-	// Check: If the value is not numeric, create a synthetic value by adding a random string
-	if _, err := strconv.Atoi(value); err != nil {
-		return g.generateRandomString(5) + value
-	}
-
-	// If it's a numeric value, perform the normal operation
-	base, _ := strconv.Atoi(value)
-	return strconv.Itoa(base - g.randomGenerator.Intn(10))
 }
 
 // GenerateRandomString generates a random string of a specific length.

@@ -3,7 +3,6 @@ package modifiers_test
 import (
 	"net"
 	"regexp"
-	"strconv"
 	"strings"
 	"testing"
 
@@ -59,85 +58,5 @@ func TestSyntheticDataGeneratorCIDR(t *testing.T) {
 	ip, _, err := net.ParseCIDR(expectedCIDR)
 	if err != nil || result != ip.String() {
 		t.Errorf("Expected result to match CIDR block %s, but got: %s", expectedCIDR, result)
-	}
-}
-
-func TestSyntheticDataGeneratorGreaterThan(t *testing.T) {
-	generator := modifiers.NewSyntheticDataGenerator()
-
-	// Integer case
-	expectedInt := 100
-	resultInt, _ := strconv.Atoi(generator.GenerateSyntheticValue(strconv.Itoa(expectedInt), "gt"))
-
-	if resultInt <= expectedInt {
-		t.Errorf("Expected result to be greater than %d, but got: %d", expectedInt, resultInt)
-	}
-
-	// String case
-	expectedStr := "test"
-	resultStr := generator.GenerateSyntheticValue(expectedStr, "gt")
-
-	if resultStr <= expectedStr {
-		t.Errorf("Expected result to be greater than %s, but got: %s", expectedStr, resultStr)
-	}
-}
-
-func TestSyntheticDataGeneratorGreaterOrEqual(t *testing.T) {
-	generator := modifiers.NewSyntheticDataGenerator()
-
-	// Integer case
-	expectedInt := 100
-	resultInt, _ := strconv.Atoi(generator.GenerateSyntheticValue(strconv.Itoa(expectedInt), "gte"))
-
-	if resultInt < expectedInt {
-		t.Errorf("Expected result to be greater than or equal to %d, but got: %d", expectedInt, resultInt)
-	}
-
-	// String case
-	expectedStr := "test"
-	resultStr := generator.GenerateSyntheticValue(expectedStr, "gte")
-
-	if resultStr < expectedStr {
-		t.Errorf("Expected result to be greater than or equal to %s, but got: %s", expectedStr, resultStr)
-	}
-}
-
-func TestSyntheticDataGeneratorLessThan(t *testing.T) {
-	generator := modifiers.NewSyntheticDataGenerator()
-
-	// Integer case
-	expectedInt := 100
-	resultInt, _ := strconv.Atoi(generator.GenerateSyntheticValue(strconv.Itoa(expectedInt), "lt"))
-
-	if resultInt >= expectedInt {
-		t.Errorf("Expected result to be lesser than %d, but got: %d", expectedInt, resultInt)
-	}
-
-	// String case
-	expectedStr := "test"
-	resultStr := generator.GenerateSyntheticValue(expectedStr, "lt")
-
-	if resultStr >= expectedStr {
-		t.Errorf("Expected result to be lesser than %s, but got: %s", expectedStr, resultStr)
-	}
-}
-
-func TestSyntheticDataGeneratorLesserOrEqual(t *testing.T) {
-	generator := modifiers.NewSyntheticDataGenerator()
-
-	// Integer case
-	expectedInt := 100
-	resultInt, _ := strconv.Atoi(generator.GenerateSyntheticValue(strconv.Itoa(expectedInt), "lte"))
-
-	if resultInt > expectedInt {
-		t.Errorf("Expected result to be lesser than or equal to %d, but got: %d", expectedInt, resultInt)
-	}
-
-	// String case
-	expectedStr := "test"
-	resultStr := generator.GenerateSyntheticValue(expectedStr, "lte")
-
-	if resultStr > expectedStr {
-		t.Errorf("Expected result to be lesser than or equal to %s, but got: %s", expectedStr, resultStr)
 	}
 }

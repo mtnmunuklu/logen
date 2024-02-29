@@ -193,8 +193,7 @@ type gt struct {
 }
 
 func (g gt) Alters(field any, value any) (string, error) {
-	syntheticValue := g.generator.GenerateSyntheticValue(coerceString(value), "gt")
-	return fmt.Sprintf("%v gt '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v gt '%v'", strings.ToLower(coerceString(field)), coerceString(value)), nil
 }
 
 type gte struct {
@@ -202,8 +201,7 @@ type gte struct {
 }
 
 func (g gte) Alters(field any, value any) (string, error) {
-	syntheticValue := g.generator.GenerateSyntheticValue(coerceString(value), "gte")
-	return fmt.Sprintf("%v gte '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v gte '%v'", strings.ToLower(coerceString(field)), coerceString(value)), nil
 }
 
 type lt struct {
@@ -211,8 +209,7 @@ type lt struct {
 }
 
 func (l lt) Alters(field any, value any) (string, error) {
-	syntheticValue := l.generator.GenerateSyntheticValue(coerceString(value), "lt")
-	return fmt.Sprintf("%v lt '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v lt '%v'", strings.ToLower(coerceString(field)), coerceString(value)), nil
 }
 
 type lte struct {
@@ -220,8 +217,7 @@ type lte struct {
 }
 
 func (l lte) Alters(field any, value any) (string, error) {
-	syntheticValue := l.generator.GenerateSyntheticValue(coerceString(value), "lte")
-	return fmt.Sprintf("%v lte '%v'", strings.ToLower(coerceString(field)), syntheticValue), nil
+	return fmt.Sprintf("%v lte '%v'", strings.ToLower(coerceString(field)), coerceString(value)), nil
 }
 
 type b64 struct{}
