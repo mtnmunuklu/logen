@@ -22,6 +22,7 @@ var (
 	outputPath    string
 	version       bool
 	caseSensitive bool
+	apiKey        string
 )
 
 // Set up the command-line flags
@@ -34,6 +35,7 @@ func init() {
 	flag.StringVar(&outputPath, "output", "", "Output directory for writing files")
 	flag.BoolVar(&version, "version", false, "Show version information")
 	flag.BoolVar(&caseSensitive, "cs", false, "Case sensitive mode")
+	flag.StringVar(&apiKey, "apikey", "", "Api key for ChatGPT")
 	flag.Parse()
 
 	// If the version flag is provided, print version information and exit
@@ -48,28 +50,27 @@ func init() {
 		os.Exit(1)
 	}
 
-	// Check if filepath and configpath are provided as command-line arguments
-	if flag.NArg() > 0 {
-		filePath = flag.Arg(0)
-	}
-	if flag.NArg() > 1 {
-		configPath = flag.Arg(1)
-	}
-
 	// Check if both filecontent and configcontent are provided
 	if (filePath == "" && fileContent == "") || (configPath == "" && configContent == "") {
 		fmt.Println("Please provide either file paths or file contents, and either config path or config content.")
 		printUsage()
 		os.Exit(1)
 	}
+
+	// Check if API key is provided
+	if apiKey == "" {
+		fmt.Println("Please provide API key for ChatGPT.")
+		printUsage()
+		os.Exit(1)
+	}
 }
 
 func printUsage() {
-	fmt.Println("Usage: logen -filepath <path> -config <path> [flags]")
+	fmt.Println("Usage: logen -filepath <path> -config <path> -apikey <apikey> [flags]")
 	fmt.Println("Flags:")
 	flag.PrintDefaults()
 	fmt.Println("Example:")
-	fmt.Println("  logen -filepath /path/to/file -config /path/to/config")
+	fmt.Println("  logen -filepath /path/to/file -config /path/to/config -apikey apikey")
 }
 
 func main() {
@@ -192,9 +193,18 @@ func main() {
 
 		// Print the results of the query
 		var builder strings.Builder
-		for _, queryResult := range result.QueryResults {
-			builder.WriteString(queryResult + "\n")
+		for i, query := range result.Queries {
+			content := fmt.Sprintf("Generate a synthetic log in the 'evtx' format that meets the following conditions for %s:\n%s", result.SourceTypes[i], query)
+
+			response, err := sevaluator.SendMessageToOpenAI(apiKey, content)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			builder.WriteString(response + "\n")
 		}
+
 		output = builder.String()
 
 		// Check if outputPath is provided

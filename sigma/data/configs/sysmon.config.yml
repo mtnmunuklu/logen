@@ -9,24 +9,24 @@ logsources:
     conditions:
       EventID: 1
     rewrite:
-      product: windows
-      service: sysmon
+      product: Windows
+      service: Sysmon
   network_connection:
     category: network_connection
     product: windows
     conditions:
       EventID: 3
     rewrite:
-      product: windows
-      service: sysmon
+      product: Windows
+      service: Sysmon
   dns_query:
     category: dns_query
     product: windows
     conditions:
       EventID: 22
     rewrite:
-      product: windows
-      service: sysmon
+      product: Windows
+      service: Sysmon
   registry_event:
     category: registry_event
     product: windows
@@ -36,48 +36,48 @@ logsources:
         - 13
         - 14
     rewrite:
-      product: windows
-      service: sysmon
+      product: Windows
+      service: Sysmon
   file_creation:
     category: file_event
     product: windows
     conditions:
       EventID: 11
     rewrite:
-      product: windows
-      service: sysmon
+      product: Windows
+      service: Sysmon
   process_access:
     category: process_access
     product: windows
     conditions:
       EventID: 10
     rewrite:
-      product: windows
-      service: sysmon
+      product: Windows
+      service: Sysmon
   image_loaded:
     category: image_load
     product: windows
     conditions:
       EventID: 7
     rewrite:
-      product: windows
-      service: sysmon
+      product: Windows
+      service: Sysmon
   driver_loaded:
     category: driver_load
     product: windows
     conditions:
       EventID: 6
     rewrite:
-      product: windows
-      service: sysmon
+      product: Windows
+      service: Sysmon
   process_terminated:
     category: process_termination
     product: windows
     conditions:
       EventID: 5
     rewrite:
-      product: windows
-      service: sysmon
+      product: Windows
+      service: Sysmon
 fieldmappings:
   UtcTime: utctime
   SourceProcessGuid: process_guid
