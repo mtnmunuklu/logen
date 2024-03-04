@@ -194,6 +194,7 @@ func main() {
 		// Print the results of the query
 		var builder strings.Builder
 		for i, query := range result.Queries {
+			builder.WriteString("Query:" + query + "\n")
 			content := fmt.Sprintf("Generate a synthetic log in the 'evtx' format that meets the following conditions for %s:\n%s", result.SourceTypes[i], query)
 
 			response, err := sevaluator.SendMessageToOpenAI(apiKey, content)
@@ -202,7 +203,7 @@ func main() {
 				return
 			}
 
-			builder.WriteString(response + "\n")
+			builder.WriteString("Log:\n" + response + "\n")
 		}
 
 		output = builder.String()
